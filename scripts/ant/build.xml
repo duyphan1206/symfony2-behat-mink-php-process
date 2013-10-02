@@ -2,38 +2,58 @@
 
 <project name="demo" default="build">
  <target name="build"
-   depends="zip, copy_to_destination, unzip"/>
+   depends="clean, prepare, deploy_test_server, test, deploy"/>
 
-   	<property name="project-name" value="${ant.project.name}" />
-   	<property name="folder-contain-zip" value="/vagrant/jobs/test/workspace" />
-	<property name="folder-to-zip" value="/vagrant/jobs/test/workspace/Symfony" />
-	<property name="archives.destination" value="/var/www/" />
+   	<!-- All target is set failonerror="true" -->
 
-	<property name="user" value="duyphan" />
-	<property name="password" value="duyphan@123" />
-	<property name="host" value="172.16.126.93" />
+   	<!-- import file for the Built Environment -->
+   	<property file="build.properties"/>
 
+   	<!-- Clean all: clean on test server -->
+   	<target name="clean" description="Cleanup build artifacts">
+   	</target>
 
-	<target name="zip">
-		<zip destfile="${folder-contain-zip}/${project-name}.zip"
-	       basedir="${folder-to-zip}"
-		/>
+   	<!-- Prepare for build -->
+	<target name="prepare" depends="clean" description="Prepare for build">
 	</target>
 
-	<fileset id="zipfiles.to.copy" dir="${folder-contain-zip}" includes="*.zip" />
-
-	<target name="copy_to_destination">
-		<scp todir="${user}:${password}@${host}:${archives.destination}"  trust="true">
-		  <fileset refid="zipfiles.to.copy" />
-		</scp>
+	<!-- Deploy on test server -->
+	<target name="deploy_test_server" description="Deploy on test server"
+		depends="zip, copy_to_server, unzip">
 	</target>
 
-	<target name="unzip">
-		<sshexec  trust="true" host="${host}" username="${user}" password="${password}" command="unzip -d ${archives.destination} -o ${archives.destination}/${project-name}.zip" />
+		<!-- zip web folder -->
+		<target name="zip">
+		</target>
+
+		<!-- copy zip file to test server -->
+		<target name="copy_to_server">
+		</target>
+
+		<!-- unzip -->
+		<target name="unzip">
+		</target>
+
+	<!-- Run test -->
+	<target name="test" description="Run test site" depends="behat_test, php_unit_test">
 	</target>
 
-	<target name="behat">
-		<
+		<!-- Run behat test -->
+		<target name="behat_test">
+		</target>
+
+		<!-- Run php unit test -->
+		<target name="php_unit_test">
+		</target>
+
+	<target name="deploy" description="deploy on production server and S3 server" depends="deploy_product_server, deploy_s3_server">
 	</target>
 
+		<!-- Deploy on S3 server -->
+		<target name="deploy_s3_server">
+		</target>
+
+		<!-- Deploy on product server -->
+		<target name="deploy_product_server">
+		</target>
 </project>
