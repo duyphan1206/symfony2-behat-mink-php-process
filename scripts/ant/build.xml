@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="demo" default="build">
+ <target name="build"
+   depends="zip, copy_to_destination, unzip"/>
+
+   	<property name="project-name" value="${ant.project.name}" />
+   	<property name="folder-contain-zip" value="/vagrant/jobs/test/workspace" />
+	<property name="folder-to-zip" value="/vagrant/jobs/test/workspace/Symfony" />
+	<property name="archives.destination" value="/var/www/" />
+
+	<property name="user" value="duyphan" />
+	<property name="password" value="duyphan@123" />
+	<property name="host" value="172.16.126.93" />
+
+
+	<target name="zip">
+		<zip destfile="${folder-contain-zip}/${project-name}.zip"
+	       basedir="${folder-to-zip}"
+		/>
+	</target>
+
+	<fileset id="zipfiles.to.copy" dir="${folder-contain-zip}" includes="*.zip" />
+
+	<target name="copy_to_destination">
+		<scp todir="${user}:${password}@${host}:${archives.destination}"  trust="true">
+		  <fileset refid="zipfiles.to.copy" />
+		</scp>
+	</target>
+
+	<target name="unzip">
+		<sshexec  trust="true" host="${host}" username="${user}" password="${password}" command="unzip -d ${archives.destination} -o ${archives.destination}/${project-name}.zip" />
+	</target>
+
+	<target name="behat">
+		<
+	</target>
+
+</project>
