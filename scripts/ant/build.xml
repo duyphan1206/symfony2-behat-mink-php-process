@@ -43,7 +43,7 @@
 		</target>
 
 	<!-- Run test -->
-	<target name="test" description="Run test site" depends="behat_test, php_unit_test">
+	<target name="test" description="Run test site" depends="behat_test, php_unit_test" >
 	</target>
 
 		<!-- Run behat test -->
