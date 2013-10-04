@@ -11,7 +11,7 @@
 
    	<!-- Clean all: clean on test server -->
    	<target name="clean" description="Cleanup build artifacts">
-   		<sshexec  trust="true" host="${host}" username="${user}" password="${password}" command="cd ${archives.destination} ;ls -1 | grep -v -E 'vendor, app' | xargs rm -R; exit;"/>
+   		<sshexec  trust="true" host="${host}" username="${user}" password="${password}" command="cd ${archives.destination} ;ls -1 | grep -v -E 'vendor | app/cache | app/log' | xargs rm -R; exit;"/>
    		<delete file="${folder-contain-zip}/${project-name}.zip"/>
    	</target>
 
