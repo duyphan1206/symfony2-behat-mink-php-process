@@ -48,10 +48,16 @@
 
 		<!-- Run behat test -->
 		<target name="behat_test">
+
 		</target>
 
 		<!-- Run php unit test -->
 		<target name="php_unit_test">
+	       <!--  <echo message="Running unit tests with PHPUnit" />
+	        <exec executable="phpunit" failonerror="true">
+	        	<arg value="-c"/>
+	            <arg value="app"/>
+	        </exec> -->
 		</target>
 
 	<target name="deploy" description="deploy on production server and S3 server" depends="deploy_product_server, deploy_s3_server">
