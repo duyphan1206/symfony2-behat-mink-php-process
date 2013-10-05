@@ -10,7 +10,7 @@
    	<property file="build.properties"/>
 
    	<!-- Clean all: clean on test server -->
-   	<target name="clean" description="Cleanup build artifacts">
+   	<target name="clean" description="Clean up build artifacts">
    		<sshexec  trust="true" host="${host}" username="${user}" password="${password}" command="cd ${archives.destination}/app ;ls -1 | grep -v -E 'cache|log' | xargs rm -R; cd ..; ls -1 | grep -v -E 'app|vendor' | xargs rm -R ;exit;"/>
    		<delete file="${folder-contain-zip}/${project-name}.zip"/>
    	</target>
