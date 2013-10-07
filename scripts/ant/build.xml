@@ -55,7 +55,7 @@
 		<target name="php_unit_test">
 	        <!-- <echo message="Running unit tests with PHPUnit" /> -->
 	        <exec executable="phpunit" failonerror="true">
-	        	<arg line="-c app" />
+	        	<arg line="-c ${folder-to-zip}/app" />
 	        </exec>
 		</target>
 
