@@ -47,7 +47,7 @@ class Task
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -62,15 +62,19 @@ class Task
      */
     public function setTask($task)
     {
-        $this->task = $task;
-    
-        return $this;
+        if (gettype($task) == 'string') {
+            $this->task = $task;
+            return $this;
+        }
+        else {
+            return false;
+        }
     }
 
     /**
      * Get task
      *
-     * @return string 
+     * @return string
      */
     public function getTask()
     {
@@ -85,15 +89,18 @@ class Task
      */
     public function setComplete($complete)
     {
-        $this->complete = $complete;
-    
-        return $this;
+        if (gettype($complete) == 'boolean') {
+            $this->complete = $complete;
+            return $this;
+        } else {
+            return false;
+        }
     }
 
     /**
      * Get complete
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getComplete()
     {
@@ -111,14 +118,14 @@ class Task
     {
         if(!isset($this->created))
             $this->created = new \DateTime();
-    
+
         return $this;
     }
 
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {

@@ -64,6 +64,8 @@
 
 		<!-- Deploy on S3 server -->
 		<target name="deploy_s3_server">
+	        <exec executable="grunt" failonerror="true">
+	        </exec>
 		</target>
 
 		<!-- Deploy on product server -->
