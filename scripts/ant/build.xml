@@ -27,7 +27,7 @@
 		<!-- zip web folder -->
 		<target name="zip">
 			<zip destfile="${folder-contain-zip}/${project-name}.zip"
-		       basedir="${folder-to-zip}" excludes="vendor/**/*, vendor/**/, vendor, bin" />
+		       basedir="${folder-to-zip}" excludes="vendor/**/*, vendor/**/, vendor" />
 		</target>
 
 		<!-- copy zip file to test server -->
