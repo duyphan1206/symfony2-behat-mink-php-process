@@ -1,4 +1,4 @@
-{% extends '::base.html.twig' %}
+{% extends 'DevTaskBundle::layout.html.twig' %}
 
 {% block body -%}
     <h1>Task list</h1>
@@ -37,9 +37,9 @@
 
         <ul>
         <li>
-            <a href="{{ path('task_new') }}">
+            <a id="createNewEntry" href="{{ path('task_new') }}">
                 Create a new entry
-            </a>
+            </a>            
         </li>
     </ul>
     {% endblock %}

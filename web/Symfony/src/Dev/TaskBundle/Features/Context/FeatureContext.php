@@ -56,16 +56,12 @@ class FeatureContext extends MinkContext //MinkContext if you want to test web
         $this->visit("/task");        
     }
 
-//
-// Place your definition and hook methods here:
-//
-//    /**
-//     * @Given /^I have done something with "([^"]*)"$/
-//     */
-//    public function iHaveDoneSomethingWith($argument)
-//    {
-//        $container = $this->kernel->getContainer();
-//        $container->get('some_service')->doSomethingWith($argument);
-//    }
-//
+    /**
+     * @When /^I click on link new entry$/
+     */
+    public function iClickOnLinkNewEntry()
+    {
+        $this->clickLink("createNewEntry");
+    }
+
 }
