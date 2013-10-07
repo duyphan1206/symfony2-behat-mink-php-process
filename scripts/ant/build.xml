@@ -48,7 +48,9 @@
 
 		<!-- Run behat test  -->
 		<target name="behat_test">
-
+	        <exec executable="${folder-to-zip}/bin/behat" failonerror="true">
+	        	<arg line="${folder-to-zip}/src/Dev/TaskBundle/Feature/createtask.feature" />
+	        </exec>
 		</target>
 
 		<!-- Run php unit test -->
