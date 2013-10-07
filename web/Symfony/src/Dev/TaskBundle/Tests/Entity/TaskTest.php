@@ -11,7 +11,11 @@ class TaskTest extends WebTestCase
     private $em;
 
     /**
+<<<<<<< HEAD
      *  {@inheritDoc}
+=======
+     * {@inheritDoc}
+>>>>>>> d3fca9dc84271eb84a85dcb6baec4817e7c288f7
      */
     public function setUp()
     {
