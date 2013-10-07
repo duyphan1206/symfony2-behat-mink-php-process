@@ -37,7 +37,7 @@ module.exports = function (grunt) {
     },
     replace: {
       example: {
-        src: ['../../web/Symfony/src/Dev/TaskBundle/Resources/views/Task/*.*'],             // source files array (supports minimatch)
+        src: ['../../web/Symfony/src/Dev/TaskBundle/Resources/views/Task/*.*'],             //  source files array (supports minimatch)
         dest: '../../web/Symfony/src/Dev/TaskBundle/Resources/views/Task/',             // destination directory or file
         replacements: [{
           from: 'Task list',                   // string replacement
@@ -51,6 +51,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-text-replace');
 
     grunt.registerTask('default', [
-        'replace'
+        'replace',
+        's3'
     ]);
 };
