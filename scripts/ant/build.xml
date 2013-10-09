@@ -47,7 +47,7 @@
 
 		<!-- Run behat test  -->
 		<target name="behat_test">
-	        <exec dir="${folder-to-zip}" executable="./behat/behat" failonerror="true">
+	        <exec dir="${folder-to-zip}" executable="./bin/behat" failonerror="true">
 	        	<arg line="${folder-to-zip}/src/Dev/TaskBundle/" />
 	        </exec>
 		</target>
