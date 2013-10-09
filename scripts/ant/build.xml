@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project name="symfony" default="build">
- <target name="build"
-   depends="clean, prepare, deploy_test_server, test, deploy"/>
+ <target name="build"/>
 
    	<!-- All target is set failonerror="true" -->
 
