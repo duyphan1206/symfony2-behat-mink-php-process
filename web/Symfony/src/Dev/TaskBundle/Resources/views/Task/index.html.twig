@@ -23,10 +23,10 @@
                 <td>
                 <ul>
                     <li>
-                        <a href="{{ path('task_show', { 'id': entity.id }) }}">show</a>
+                        <a id="{{entity.id}}-show" href="{{ path('task_show', { 'id': entity.id }) }}">show</a>
                     </li>
                     <li>
-                        <a href="{{ path('task_edit', { 'id': entity.id }) }}">edit</a>
+                        <a id="{{entity.id}}-edit" href="{{ path('task_edit', { 'id': entity.id }) }}">edit</a>
                     </li>
                 </ul>
                 </td>

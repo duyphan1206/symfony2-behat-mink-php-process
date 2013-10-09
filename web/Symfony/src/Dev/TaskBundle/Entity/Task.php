@@ -4,6 +4,7 @@ namespace Dev\TaskBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+date_default_timezone_set('Asia/Saigon');
 /**
  * Task
  *

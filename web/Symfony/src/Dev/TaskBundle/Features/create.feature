@@ -1,4 +1,4 @@
-# features/createtask.feature
+# features/create.feature
 Feature: Create Task
   In order to manage task
   As a user
