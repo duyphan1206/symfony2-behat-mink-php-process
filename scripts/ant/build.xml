@@ -11,7 +11,8 @@
 
    	<!-- Clean all: clean on test server -->
    	<target name="clean" description="Clean up build artifacts">
-   		<sshexec  trust="true" host="${host}" username="${user}" password="${password}" command="cd ${archives.destination}/app ;ls -1 | grep -v -E 'cache|log' | xargs rm -R; cd ..; ls -1 | grep -v -E 'app|vendor' | xargs rm -R ;exit;"/>
+   		<sshexec  trust="true" host="${host_test}" username="${user_test}" password="${password_test}" command="cd ${archives.destination}/app ;ls -1 | grep -v -E 'cache|log' | xargs rm -R; cd ..; ls -1 | grep -v -E 'app|vendor' | xargs rm -R ;exit;"/>
+   		<sshexec  trust="true" host="${host_product}" username="${user_product}" password="${password_product}" command="cd ${archives.destination}/app ;ls -1 | grep -v -E 'cache|log' | xargs rm -R; cd ..; ls -1 | grep -v -E 'app|vendor' | xargs rm -R ;exit;"/>
    		<delete file="${folder-contain-zip}/${project-name}.zip"/>
    	</target>
 
@@ -32,14 +33,14 @@
 
 		<!-- copy zip file to test server -->
 		<target name="copy_to_server">
-			<scp todir="${user}:${password}@${host}:${archives.destination}"  trust="true">
+			<scp todir="${user_test}:${password_test}@${host_test}:${archives.destination}"  trust="true">
 			  <fileset dir="${folder-contain-zip}" includes="*.zip" />
 			</scp>
 		</target>
 
 		<!-- unzip -->
 		<target name="unzip">
-			<sshexec  trust="true" host="${host}" username="${user}" password="${password}" command="unzip -d ${archives.destination} -o ${archives.destination}/${project-name}.zip ; exit;"/>
+			<sshexec  trust="true" host="${host_test}" username="${user_test}" password="${password_test}" command="unzip -d ${archives.destination} -o ${archives.destination}/${project-name}.zip ; exit;"/>
 		</target>
 
 	<!-- Run test -->
@@ -48,8 +49,8 @@
 
 		<!-- Run behat test  -->
 		<target name="behat_test">
-	        <exec executable="${folder-to-zip}/bin/behat" failonerror="true">
-	        	<arg line="${folder-to-zip}/src/Dev/TaskBundle/Feature/createtask.feature" />
+	        <exec dir="${folder-to-zip}" executable="./bin/behat" failonerror="true">
+	        	<arg line="${folder-to-zip}/src/Dev/TaskBundle/" />
 	        </exec>
 		</target>
 
@@ -61,16 +62,33 @@
 	        </exec>
 		</target>
 
-	<target name="deploy" description="deploy on production server and S3 server" depends="deploy_product_server, deploy_s3_server">
+	<target name="deploy" description="deploy on production server and S3 server" depends="deploy_s3_server, deploy_product_server">
 	</target>
 
 		<!-- Deploy on S3 server -->
 		<target name="deploy_s3_server">
-	        <exec executable="grunt" failonerror="true">
+	        <exec dir="${folder-contain-zip}/scripts/grunt/" executable="grunt">
 	        </exec>
 		</target>
 
 		<!-- Deploy on product server -->
-		<target name="deploy_product_server">
+		<target name="deploy_product_server" description="Deploy on product server"
+		depends="zip_product, copy_to_product_server, unzip_product">
 		</target>
+			<!-- zip web folder -->
+			<target name="zip_product">
+				<zip destfile="${folder-contain-zip}/${project-name}.zip"
+			       basedir="${folder-to-zip}" excludes="vendor/**/*, vendor/**/, vendor" />
+			</target>
+			<!-- copy zip file to test server -->
+			<target name="copy_to_product_server">
+				<scp todir="${user_product}:${password_product}@${host_product}:${archives.destination}"  trust="true">
+				  <fileset dir="${folder-contain-zip}" includes="*.zip" />
+				</scp>
+			</target>
+
+			<!-- unzip -->
+			<target name="unzip_product">
+				<sshexec  trust="true" host="${host_product}" username="${user_product}" password="${password_product}" command="unzip -d ${archives.destination} -o ${archives.destination}/${project-name}.zip ; exit;"/>
+			</target>
 </project>
