@@ -29,19 +29,51 @@ module.exports = function (grunt) {
       },
       test_S3Task: {
           upload: [{
-          src: '../../web/Symfony/**/*.*',
-          dest: '/Symfony/',
-          rel: '../../web/Symfony/'
-        }]
+            src: '../../web/Symfony/app/*.*',
+            dest: '/Symfony/app/',
+            rel: '../../web/Symfony/app/'
+          },
+          {
+            src: '../../web/Symfony/app/config/**/*.*',
+            dest: '/Symfony/app/config/',
+            rel: '../../web/Symfony/app/config/'
+          },
+          {
+            src: '../../web/Symfony/app/Resources/**/*.*',
+            dest: '/Symfony/app/Resources/',
+            rel: '../../web/Symfony/app/Resources/'
+          },
+          {
+            src: '../../web/Symfony/bin/**/*.*',
+            dest: '/Symfony/bin/',
+            rel: '../../web/Symfony/bin/'
+          },
+          {
+            src: '../../web/Symfony/src/**/*.*',
+            dest: '/Symfony/src/',
+            rel: '../../web/Symfony/src/'
+          },
+          {
+            src: '../../web/Symfony/web/**/*.*',
+            dest: '/Symfony/web/',
+            rel: '../../web/Symfony/web/'
+          },
+          {
+            src: '../../web/Symfony/*.*',
+            dest: '/Symfony/',
+            rel: '../../web/Symfony/'
+          }
+
+          ]
       }
     },
     replace: {
       example: {
-        src: ['../../web/Symfony/src/Dev/TaskBundle/Resources/views/Task/*.*'],             //  source files array (supports minimatch)
-        dest: '../../web/Symfony/src/Dev/TaskBundle/Resources/views/Task/',             // destination directory or file
+        src: ['../../web/Symfony/src/Dev/TaskBundle/Resources/views/layout.html.twig'],             //  source files array (supports minimatch)
+        dest: '../../web/Symfony/src/Dev/TaskBundle/Resources/views/layout.html.twig',             // destination directory or file
         replacements: [{
-          from: 'Task list',                   // string replacement
-          to: 'anhhau'
+          from: "{{ asset('bundles/devtask/css/task.css') }}",                   // string replacement
+          to: 'https://php-dev-demo.s3.amazonaws.com/Symfony/web/bundles/devtask/css/task.css'
         }]
       }
     }
