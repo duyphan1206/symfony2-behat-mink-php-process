@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project name="symfony" default="build">
- <target name="build"/>
+ <target name="build"
+   depends="clean, prepare, deploy_test_server, test, deploy"/>
 
    	<!-- All target is set failonerror="true" -->
 
@@ -46,7 +47,7 @@
 
 		<!-- Run behat test  -->
 		<target name="behat_test">
-	        <exec dir="${folder-to-zip}" executable="./bin/behat" failonerror="true">
+	        <exec dir="${folder-to-zip}" executable="./behat/behat" failonerror="true">
 	        	<arg line="${folder-to-zip}/src/Dev/TaskBundle/" />
 	        </exec>
 		</target>
