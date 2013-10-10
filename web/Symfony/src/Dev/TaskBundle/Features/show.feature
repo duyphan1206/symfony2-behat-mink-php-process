@@ -7,5 +7,5 @@ Feature: Show Task
   @javascript
   Scenario: Show succesful 
     Given I am on tasks page
-    When I click on link show
+    When I click on link show "32"
     Then I should see "Task : New Task"

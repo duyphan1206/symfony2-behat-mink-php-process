@@ -67,17 +67,25 @@ class FeatureContext extends MinkContext //MinkContext if you want to test web
     /**
      * @When /^I click on link edit$/
      */
-    public function iClickOnLinkEdit()
+    public function iClickOnLinkEdit($id)
     {
-        $this->clickLink("4-edit");
+        $this->clickLink($id . "-edit");
     }
 
     /**
      * @When /^I click on link show$/
      */
-    public function iClickOnLinkShow()
+    public function iClickOnLinkShow($id)
     {
-        $this->clickLink("4-show");
+        $this->clickLink($id . "-show");
+    }
+
+    /**
+     * @When /^I click on link show "([^"]*)"$/
+     */
+    public function iClickOnLinkShow2($id)
+    {
+        $this->clickLink($id . "-show");
     }
 
 
