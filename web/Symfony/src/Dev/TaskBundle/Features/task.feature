@@ -12,17 +12,8 @@ Feature: Task
   @javascript
   Scenario: Show task succesful 
     Given I am on tasks page
-    When I click on link show "63"
+    When I click on link show "64"
     Then I should see "Task : New Task"
-
-  @javascript
-  Scenario: Delete the list task
-    Given I am on tasks page
-    Then I should see "Task list" 
-    When I click on link show "63"
-    And I should see "Task : New Task"
-    And I press "form_submit"
-    Then I should be on "/task/"
 
   @javascript
   Scenario: Create task with succesful
