@@ -11,12 +11,22 @@
 
    	<!-- Clean all: clean on test server -->
    	<target name="clean" description="Clean up build artifacts">
-   		<delete file="${folder-contain-zip}/${project-name}.zip"/>
+   		<delete file="${root}/${project-name}.zip"/>
    	</target>
 
    	<!-- Prepare for build -->
-	<target name="prepare" depends="clean" description="Prepare for build">
+	<target name="prepare" depends="prepare_composer, prepare_grunt" description="Prepare for build">
 	</target>
+
+		<target name="prepare_composer" description="Install Symfony require software">
+			<exec dir="${web_root}" executable="php composer.phar install">
+	        </exec>
+		</target>
+
+		<target name="prepare_grunt" description="Install grunt dependency">
+			<exec dir="${root}/scripts/grunt/" executable="npm install">
+	        </exec>
+		</target>
 
 	<!-- Deploy on test server -->
 	<target name="deploy_test_server" description="Deploy on test server"
@@ -25,14 +35,14 @@
 
 		<!-- zip web folder -->
 		<target name="zip">
-			<zip destfile="${folder-contain-zip}/${project-name}.zip"
-		       basedir="${folder-to-zip}" excludes="vendor/**/*, vendor/**/, vendor" />
+			<zip destfile="${root}/${project-name}.zip"
+		       basedir="${web_root}" excludes="vendor/**/*, vendor/**/, vendor" />
 		</target>
 
 		<!-- copy zip file to test server -->
 		<target name="copy_to_server">
 			<scp todir="${user_test}:${password_test}@${host_test}:${archives.destination}"  trust="true">
-			  <fileset dir="${folder-contain-zip}" includes="*.zip" />
+			  <fileset dir="${root}" includes="*.zip" />
 			</scp>
 		</target>
 
@@ -47,8 +57,8 @@
 
 		<!-- Run behat test  -->
 		<target name="behat_test">
-	        <exec dir="${folder-to-zip}" executable="./bin/behat" failonerror="true">
-	        	<arg line="${folder-to-zip}/src/Dev/TaskBundle/" />
+	        <exec dir="${web_root}" executable="./bin/behat" failonerror="true">
+	        	<arg line="${web_root}/src/Dev/TaskBundle/" />
 	        </exec>
 		</target>
 
@@ -56,7 +66,7 @@
 		<target name="php_unit_test">
 	        <!-- <echo message="Running unit tests with PHPUnit" /> -->
 	        <exec executable="phpunit" failonerror="true">
-	        	<arg line="-c ${folder-to-zip}/app" />
+	        	<arg line="-c ${web_root}/app" />
 	        </exec>
 		</target>
 
@@ -65,7 +75,7 @@
 
 		<!-- Deploy on S3 server -->
 		<target name="deploy_s3_server">
-	        <exec dir="${folder-contain-zip}/scripts/grunt/" executable="grunt">
+	        <exec dir="${root}/scripts/grunt/" executable="grunt">
 	        </exec>
 		</target>
 
@@ -75,13 +85,13 @@
 		</target>
 			<!-- zip web folder -->
 			<target name="zip_product">
-				<zip destfile="${folder-contain-zip}/${project-name}.zip"
-			       basedir="${folder-to-zip}" excludes="vendor/**/*, vendor/**/, vendor" />
+				<zip destfile="${root}/${project-name}.zip"
+			       basedir="${web_root}" excludes="vendor/**/*, vendor/**/, vendor" />
 			</target>
 			<!-- copy zip file to test server -->
 			<target name="copy_to_product_server">
 				<scp todir="${user_product}:${password_product}@${host_product}:${archives.destination}"  trust="true">
-				  <fileset dir="${folder-contain-zip}" includes="*.zip" />
+				  <fileset dir="${root}" includes="*.zip" />
 				</scp>
 			</target>
 
