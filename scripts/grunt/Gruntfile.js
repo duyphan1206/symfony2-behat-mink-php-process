@@ -18,7 +18,13 @@ module.exports = function (grunt) {
   grunt.initConfig({
      symfony: {
         app: '../../Symfony',
-        dist: '../../dist'
+        dist: '../../dist',
+        host_deploy: '172.16.126.169',
+        folder_deploy: '/var/www/deploy',
+        user : 'congdang',
+        password: 'asnet@123',
+        project_name : "product",
+        root_folder : "/vagrant/jobs/symfony/workspace/"
     },
     s3: {
        options: {
@@ -32,7 +38,7 @@ module.exports = function (grunt) {
           "Expires": new Date(Date.now() + 63072000000).toUTCString()
         }
       },
-        
+
       assets_deploy: {
           upload: [{
             src: 'dist/web/bundles/devtask/css/**',
@@ -46,7 +52,7 @@ module.exports = function (grunt) {
 
     // Put files not handled in other tasks here
     copy: {
-       
+
         dist: {
             files: [{
                 expand: true,
@@ -151,20 +157,52 @@ module.exports = function (grunt) {
                 src: [
                     'temp',
                     'dist'
-                    // '<%= symfony.dist %>/**/*'
                 ]
             }]
         }
+    },
+
+    // make a zipfile
+    compress: {
+      prepare_deploy: {
+        options: {
+          archive: '<%= symfony.root_folder %><%= symfony.project_name %>.zip'
+        },
+        expand: true,
+        cwd: '<%= symfony.root_folder %>dist/',
+        src: ['**/*'],
+        dest: '/'
+      }
+    },
+
+    scp: {
+      options: {
+          host: '<%= symfony.host_deploy %>',
+          username: '<%= symfony.user %>',
+          password: '<%= symfony.password %>'
+      },
+      deploy: {
+          files: [{
+              cwd: '<%= symfony.root_folder %>',
+              src: '<%= symfony.project_name %>.zip',
+              filter: 'isFile',
+              // path on the server
+              dest: '<%= symfony.folder_deploy %>'
+          }]
+      }
     }
   });
 
-  
+
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-usemin');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('assetflow');
+  grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-scp');
+  grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-s3');
 
     grunt.registerTask('default', [
@@ -172,6 +210,9 @@ module.exports = function (grunt) {
         'concat','usemin',
         'assets',
         'assetsReplace',
-        's3', 'clean'
+        's3',
+        'compress',
+        'scp',
+        'clean'
     ]);
 };
