@@ -65,27 +65,46 @@ class FeatureContext extends MinkContext //MinkContext if you want to test web
     }
 
     /**
-     * @When /^I click on link edit$/
+     * @When /^I click on "([^"]*)"$/
      */
-    public function iClickOnLinkEdit($id)
+    public function iClickOn($id)
+    {
+        $this->clickLink($id . "-show");
+    }
+
+    /**
+     * @When /^I click on edit "([^"]*)"$/
+     */
+    public function iClickOnEdit($id)
     {
         $this->clickLink($id . "-edit");
     }
 
     /**
-     * @When /^I click on link show$/
+     * @When /^I click on link back list$/
      */
-    public function iClickOnLinkShow($id)
+    public function iClickOnLinkBackList()
     {
-        $this->clickLink($id . "-show");
+        $this->clickLink("backList");
     }
 
     /**
-     * @When /^I click on link show "([^"]*)"$/
+     * @When /^I click on delete link$/
      */
-    public function iClickOnLinkShow2($id)
+    public function iClickOnDeleteLink()
     {
-        $this->clickLink($id . "-show");
+        $this->clickLink("form_submit");
+    }
+
+    /**
+     * @Given /^I am logged in as "([^"]*)" with password "([^"]*)"$/
+     */
+    public function iAmLoggedInAsWithPassword($arg1, $arg2)
+    {
+        $this->visit("/demo/secured/login");
+        $this->fillField("username", $arg1);
+        $this->fillField("password", $arg2);
+        $this->pressButton("LOGIN");
     }
 
 
