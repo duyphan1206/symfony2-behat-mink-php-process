@@ -41,12 +41,20 @@ module.exports = function (grunt) {
 
       assets_deploy: {
           upload: [{
-            src: 'dist/web/bundles/devtask/css/**',
-            // a prefix folder on S3
-            dest:  'assets/',
-            // the rel option
-            rel: 'dist/web/'
-          }]
+              src: 'dist/web/bundles/devtask/css/**',
+              // a prefix folder on S3
+              dest:  'assets/',
+              // the rel option
+              rel: 'dist/web/'
+            },
+            {
+              src: 'dist/web/bundles/devtask/js/**',
+              // a prefix folder on S3
+              dest:  'assets/',
+              // the rel option
+              rel: 'dist/web/'
+            }
+            ]
       }
     },
 
@@ -72,22 +80,36 @@ module.exports = function (grunt) {
         }
     },
 
-    concat: {
-      styles: {
-        src: '../../dist/web/bundles/devtask/css/**/*.css',
-        dest: '../../dist/web/bundles/devtask/css/main.min.css'
-      }
-    },
+    // concat: {
+    //   styles: {
+    //     src: '../../dist/web/bundles/devtask/css/**/*.css',
+    //     dest: '../../dist/web/bundles/devtask/css/main.min.css'
+    //   }
+    // },
 
     // Minify _everything_. Same logic as the concat step, just smaller files.
     uglify: {
-      styles: {
-        src: '../../dist/web/bundles/devtask/css/main.css',
-        dest: '../../dist/web/bundles/devtask/css/main.min.css'
+        options: {
+          mangle: {
+            except: ['jQuery', 'Backbone']
+          }
+        },
+        target: {
+          files: {
+            '../../dist/web/bundles/devtask/js/main.min.js': ['../../dist/web/bundles/devtask/**/*.js']
+          }
+        }
+    },
+
+    cssmin: {
+      combine: {
+        files: {
+          '../../dist/web/bundles/devtask/css/main.min.css': ['../../dist/web/bundles/devtask/css/**/*.css']
+        }
       }
     },
 
-     useminPrepare: {
+    useminPrepare: {
       html: ['../../dist/src/Dev/TaskBundle/Resources/views/*.html.twig']
     },
     // update references in HTML/CSS to revved files
@@ -111,7 +133,7 @@ module.exports = function (grunt) {
         // Show a fancy progress indicator
         progress: true,
         // Set path to substract so the relative path for the assets can be calculated.
-        rel: 'bundles/devtask/css/'
+        rel: 'bundles/devtask/'
       },
 
       all: {
@@ -123,6 +145,7 @@ module.exports = function (grunt) {
         src: [
           // all files under folder assets
           '../../dist/web/bundles/devtask/css/*.min.css',
+          '../../dist/web/bundles/devtask/js/*.min.js'
         ],
         dest: 'temp/assets'
       }
@@ -203,11 +226,14 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-scp');
   grunt.loadNpmTasks('grunt-contrib-compress');
+  grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-s3');
 
     grunt.registerTask('default', [
         'copy',
-        'concat','usemin',
+        'cssmin',
+        'uglify',
+        'usemin',
         'assets',
         'assetsReplace',
         's3',
