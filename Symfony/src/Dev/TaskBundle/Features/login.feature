@@ -13,27 +13,19 @@ Feature: Behat Login to the demo area
     Given I am on "/demo/secured/login"
     When I fill in "username" with "admin"
     And I fill in "password" with "adminpass"
-    And I press "LOGIN"
-    Then I should see "Welcome!"
+    And I press "Login"
+    Then I should see "Welcome the new website!"
 
   Scenario: Unexisting user cannot access demo secured area
     Given I am on "/demo/secured/login"
     When I fill in "username" with "fakeuser"
     And I fill in "password" with "adminpass"
-    And I press "LOGIN"
+    And I press "Login"
     Then I should see "Bad credentials"
 
   Scenario: Existing user with bad password cannot access demo secured area
     Given I am on "/demo/secured/login"
     When I fill in "username" with "admin"
     And I fill in "password" with "fakepass"
-    And I press "LOGIN"
+    And I press "Login"
     Then I should see "Bad credentials"
-
-  Scenario: Logout
-    Given I am logged in as "admin" with password "adminpass"
-    Given I am on "/demo/secured/hello/World"
-    When I follow "Logout"
-    Then I should be on "/demo/"
-    And I should see "LOGIN"
-    Then show last response

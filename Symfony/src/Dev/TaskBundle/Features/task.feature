@@ -12,9 +12,9 @@ Feature: Task
   @javascript
   Scenario: Successful show one task list
     Given I am on tasks page    
-    When I click on "60"
-    Then the url should match "/60"
-    Then I should see "form_submit"
+    When I click on "58"
+    Then the url should match "/58"
+    Then I should see "Task : Create Task with Task List Todo CHANGED"
 
   @javascript
   Scenario: Create task with succesful
@@ -52,11 +52,3 @@ Feature: Task
     When I click on link back list
     Then I should see "Create Task with Task List Todo CHANGED"
 
-  @javascript
-  Scenario: Delete task with succesful
-    Given I am on tasks page    
-    When I click on edit "105" 
-    Then the url should match "/edit"
-    Then I should see "Task edit"       
-    When I click on delete link
-    Then I should not see "Create Task with Task List Todo CHANGED"

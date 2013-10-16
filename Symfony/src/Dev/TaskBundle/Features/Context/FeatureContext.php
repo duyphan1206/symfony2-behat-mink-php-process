@@ -104,7 +104,7 @@ class FeatureContext extends MinkContext //MinkContext if you want to test web
         $this->visit("/demo/secured/login");
         $this->fillField("username", $arg1);
         $this->fillField("password", $arg2);
-        $this->pressButton("LOGIN");
+        $this->pressButton("Login");
     }
 
 
