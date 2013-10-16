@@ -29,3 +29,17 @@ Feature: Behat Login to the demo area
     And I fill in "password" with "fakepass"
     And I press "Login"
     Then I should see "Bad credentials"
+
+  Scenario Outline: Failed logins due to missing/invalid details
+    Given I am on "/demo/secured/login"
+    When I fill in "username" with "<admin>"    
+    And I fill in "password" with "<password>"
+    And I press "Login"
+    Then I should see "Bad credentials"    
+  Examples:
+    | username                  | password         | explanation    |
+    |                           |                  | nothing        |
+    |                           | adminpass        | missing username  |
+    | admin                     |                  | missing password |
+    | admin123                  | adminpass        | invalid username  |
+    | admin                     | fakepass         | wrong password |
