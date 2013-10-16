@@ -76,6 +76,6 @@
 	<target name="deploy" description="deploy on production server and S3 server">
 		<exec dir="${root}/scripts/grunt/" executable="grunt" failonerror="true">
         </exec>
-        <sshexec  trust="true" host="${host.product}" username="${user.product}" password="${password.product}" command="unzip -d ${archives.destination} -o ${archives.destination}/product.zip; cd ${archives.destination}; php composer.phar install ; mkdir app/cache; mkdir app/logs; APACHEUSER=`ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1`; setfacl -R -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; setfacl -dR -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; exit;" />
+        <sshexec  trust="true" host="${host.product}" username="${user.product}" password="${password.product}" command="unzip -d ${archives.destination} -o ${archives.destination}/product.zip; cd ${archives.destination}; php composer.phar install ; mkdir app/cache; mkdir app/logs; rm -rf app/cache; rm -rf app/logs;APACHEUSER=`ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1`; setfacl -R -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; setfacl -dR -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; exit;" />
 	</target>
 </project>
