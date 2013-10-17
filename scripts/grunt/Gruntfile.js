@@ -11,8 +11,6 @@
   */
 'use strict';
 
-var path = require('path');
-
 module.exports = function (grunt) {
 
   grunt.initConfig({
@@ -23,8 +21,7 @@ module.exports = function (grunt) {
         folder_deploy: '/var/www/deploy',
         user : 'congdang',
         password: 'asnet@123',
-        project_name : "product",
-        root_folder : "/vagrant/jobs/symfony/workspace/"
+        project_name : "product"
     },
     s3: {
        options: {
@@ -79,13 +76,6 @@ module.exports = function (grunt) {
             }]
         }
     },
-
-    // concat: {
-    //   styles: {
-    //     src: '../../dist/web/bundles/devtask/css/**/*.css',
-    //     dest: '../../dist/web/bundles/devtask/css/main.min.css'
-    //   }
-    // },
 
     // Minify _everything_. Same logic as the concat step, just smaller files.
     uglify: {
@@ -223,7 +213,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('assetflow');
-  grunt.loadNpmTasks('grunt-shell');
   grunt.loadNpmTasks('grunt-scp');
   grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
