@@ -20,9 +20,6 @@
 	</target>
 
 		<target name="prepare_composer" description="Install Symfony require software" >
-			<exec dir="${root.web}/" executable="php" failonerror="true">
-				<arg line="composer.phar install" />
-	        </exec>
 	        <exec dir="${root.web}/" executable="php" failonerror="true">
 				<arg line="composer.phar update" />
 	        </exec>
@@ -54,11 +51,11 @@
 
 		<!-- unzip -->
 		<target name="unzip">
-			<sshexec  trust="true" host="${host.test}" username="${user.test}" password="${password.test}" command="unzip -d ${archives.destination} -o ${archives.destination}/${project.name}.zip; cd ${archives.destination}; rm -rf app/cache; rm -rf app/logs; mkdir app/cache; mkdir app/logs; php composer.phar install; php composer.phar update;APACHEUSER=`ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1`; setfacl -R -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; setfacl -dR -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; exit;" />
+			<sshexec  trust="true" host="${host.test}" username="${user.test}" password="${password.test}" command="unzip -d ${archives.destination} -o ${archives.destination}/${project.name}.zip; cd ${archives.destination}; rm -rf app/cache; rm -rf app/logs; mkdir app/cache; mkdir app/logs; php composer.phar update;APACHEUSER=`ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1`; setfacl -R -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; setfacl -dR -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; exit;" />
 		</target>
 
 	<!-- Run test -->
-	<target name="test" description="Run test site" depends="behat_test, php_unit_test" >
+	<target name="test" description="Run test site" depends="php_unit_test, behat_test" >
 	</target>
 
 		<!-- Run behat test  -->
@@ -79,6 +76,6 @@
 	<target name="deploy" description="deploy on production server and S3 server">
 		<exec dir="${root}/scripts/grunt/" executable="grunt" failonerror="true">
         </exec>
-        <sshexec  trust="true" host="${host.product}" username="${user.product}" password="${password.product}" command="unzip -d ${archives.destination} -o ${archives.destination}/product.zip; cd ${archives.destination};php composer.phar install ;php composer.phar update; rm -rf app/cache; rm -rf app/logs; mkdir app/cache; mkdir app/logs; APACHEUSER=`ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1`; setfacl -R -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; setfacl -dR -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; exit;" />
+        <sshexec  trust="true" host="${host.product}" username="${user.product}" password="${password.product}" command="unzip -d ${archives.destination} -o ${archives.destination}/product.zip; cd ${archives.destination};php composer.phar update; rm -rf app/cache; rm -rf app/logs; mkdir app/cache; mkdir app/logs; APACHEUSER=`ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1`; setfacl -R -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; setfacl -dR -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; exit;" />
 	</target>
 </project>
