@@ -1,7 +1,3 @@
-welcome:
-    resource: "@WelcomeBundle/Resources/config/routing.yml"
-    prefix:   /
-
 dev_task:
     resource: "@DevTaskBundle/Controller/"
     type:     annotation

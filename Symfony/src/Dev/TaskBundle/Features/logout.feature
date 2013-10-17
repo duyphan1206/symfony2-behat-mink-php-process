@@ -3,6 +3,7 @@ Feature: Logging Out
   As a user
   I want to logout
   
+  @javascript
   Scenario: Logout
     Given I am logged in as "admin" with password "adminpass"
     Given I am on "/demo/secured/hello/World"
