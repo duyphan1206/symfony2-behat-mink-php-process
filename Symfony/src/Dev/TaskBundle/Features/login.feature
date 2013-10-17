@@ -9,6 +9,7 @@ Feature: Behat Login to the demo area
     Then I should be on "/demo/secured/login"
     And the response should contain "Login"
 
+  @javascript
   Scenario: fill login form
     Given I am on "/demo/secured/login"
     When I fill in "username" with "admin"
@@ -16,6 +17,7 @@ Feature: Behat Login to the demo area
     And I press "Login"
     Then I should see "Welcome the new website!"
 
+  @javascript
   Scenario: Unexisting user cannot access demo secured area
     Given I am on "/demo/secured/login"
     When I fill in "username" with "fakeuser"
@@ -23,6 +25,7 @@ Feature: Behat Login to the demo area
     And I press "Login"
     Then I should see "Bad credentials"
 
+  @javascript
   Scenario: Existing user with bad password cannot access demo secured area
     Given I am on "/demo/secured/login"
     When I fill in "username" with "admin"
@@ -30,6 +33,7 @@ Feature: Behat Login to the demo area
     And I press "Login"
     Then I should see "Bad credentials"
 
+  @javascript
   Scenario Outline: Failed logins due to missing/invalid details
     Given I am on "/demo/secured/login"
     When I fill in "username" with "<admin>"    

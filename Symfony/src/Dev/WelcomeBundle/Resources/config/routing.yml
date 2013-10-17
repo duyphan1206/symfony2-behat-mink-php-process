@@ -1,3 +1,0 @@
-welcome_homepage:
-    path:  wellcome/hello/{name}
-    defaults: { _controller: WelcomeBundle:Default:index }
