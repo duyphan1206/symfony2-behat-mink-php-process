@@ -39,7 +39,7 @@
 		<!-- zip web folder -->
 		<target name="zip">
 			<zip destfile="${root}/${project.name}.zip"
-		       basedir="${root.web}" excludes="vendor/**/*, vendor/**/, vendor, composer.lock" />
+		       basedir="${root.web}" excludes="vendor/**/*, vendor/**/, vendor, composer.lock, app/cache/**/*, app/logs/**/*" />
 		</target>
 
 		<!-- copy zip file to test server -->

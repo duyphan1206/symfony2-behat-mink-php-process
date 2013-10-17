@@ -45,14 +45,14 @@ module.exports = function (grunt) {
               // a prefix folder on S3
               dest:  'assets/',
               // the rel option
-              rel: 'dist/web/'
+              rel: 'dist/web/bundles/devtask/'
             },
             {
               src: 'dist/web/bundles/devtask/js/**',
               // a prefix folder on S3
               dest:  'assets/',
               // the rel option
-              rel: 'dist/web/'
+              rel: 'dist/web/bundles/devtask/'
             }
             ]
       }
@@ -189,10 +189,10 @@ module.exports = function (grunt) {
     compress: {
       prepare_deploy: {
         options: {
-          archive: '<%= symfony.root_folder %><%= symfony.project_name %>.zip'
+          archive: '../../product.zip'
         },
         expand: true,
-        cwd: '<%= symfony.root_folder %>dist/',
+        cwd: '../../dist/',
         src: ['**/*'],
         dest: '/'
       }
@@ -206,8 +206,8 @@ module.exports = function (grunt) {
       },
       deploy: {
           files: [{
-              cwd: '<%= symfony.root_folder %>',
-              src: '<%= symfony.project_name %>.zip',
+              cwd: '../../',
+              src: 'product.zip',
               filter: 'isFile',
               // path on the server
               dest: '<%= symfony.folder_deploy %>'
