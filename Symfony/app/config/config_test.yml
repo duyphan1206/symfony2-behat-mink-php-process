@@ -14,10 +14,3 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
-
-doctrine:
-    dbal:
-        host: localhost
-        dbname: taskdbtest
-        user: root
-        password: null
