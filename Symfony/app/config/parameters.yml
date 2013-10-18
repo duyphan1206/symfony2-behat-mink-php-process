@@ -1,7 +1,7 @@
 # This file is auto-generated during the composer install
 parameters:
     database_driver: pdo_mysql
-    database_host: localhost
+    database_host: 172.16.126.169
     database_port: null
     database_name: taskdb
     database_user: root
