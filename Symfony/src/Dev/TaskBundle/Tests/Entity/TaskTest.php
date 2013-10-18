@@ -5,9 +5,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class TaskTest extends WebTestCase
 {
-	/**
-	* @var \Doctrine\ORM\EntityManager
-	*/
+    /**
+    * @var \Doctrine\ORM\EntityManager
+    */
     private $em;
 
     /**
@@ -19,83 +19,62 @@ class TaskTest extends WebTestCase
         static::$kernel->boot();
         $this->em = static::$kernel->getContainer()
             ->get('doctrine')
-            ->getManager()
-        ;
+            ->getManager();
+
+        $this->tasks = $this->em
+            ->getRepository('DevTaskBundle:Task')
+            ->findAll();
+
+        $this->task = $this->tasks[0];
     }
 
     public function testGetId()
     {
-    	$task = $this->em
-            ->getRepository('DevTaskBundle:Task')
-            ->find(1);
-
-        $this->assertEquals(1, $task->getId());
+        $this->assertInternalType('integer', $this->task->getId());
     }
 
     public function testSetTask()
     {
-    	$task = $this->em
-            ->getRepository('DevTaskBundle:Task')
-            ->find(1);
-
-        $this->assertFalse($task->setTask(new \DateTime()));
-        $this->assertFalse($task->setTask(array('example' => 'example')));
-        $this->assertFalse($task->setTask(true));
-        $this->assertFalse($task->setTask(1));
-        $this->assertFalse($task->setTask(null));
-        $this->assertFalse($task->setTask(1.0));
-        $this->assertInternalType('object', $task->setTask('Test task'));
+        $this->assertFalse($this->task->setTask(new \DateTime()));
+        $this->assertFalse($this->task->setTask(array('example' => 'example')));
+        $this->assertFalse($this->task->setTask(true));
+        $this->assertFalse($this->task->setTask(1));
+        $this->assertFalse($this->task->setTask(null));
+        $this->assertFalse($this->task->setTask(1.0));
+        $this->assertInternalType('object', $this->task->setTask('Test task'));
     }
 
     public function testGetTask()
     {
-        $task = $this->em
-            ->getRepository('DevTaskBundle:Task')
-            ->find(1);
-
-        $this->assertInternalType('string', $task->getTask());
+        $this->assertInternalType('string', $this->task->getTask());
     }
 
     public function testSetComplete()
     {
-    	$task = $this->em
-            ->getRepository('DevTaskBundle:Task')
-            ->find(1);
+        $this->assertFalse($this->task->setComplete(new \DateTime()));
+        $this->assertFalse($this->task->setComplete(array('example' => 'example')));
+        $this->assertFalse($this->task->setComplete('example'));
+        $this->assertFalse($this->task->setComplete(1));
+        $this->assertFalse($this->task->setComplete(null));
+        $this->assertFalse($this->task->setComplete(1.0));
 
-        $this->assertFalse($task->setComplete(new \DateTime()));
-        $this->assertFalse($task->setComplete(array('example' => 'example')));
-        $this->assertFalse($task->setComplete('example'));
-        $this->assertFalse($task->setComplete(1));
-        $this->assertFalse($task->setComplete(null));
-        $this->assertFalse($task->setComplete(1.0));
-
-        $this->assertInternalType('object', $task->setComplete(true));
+        $this->assertInternalType('object', $this->task->setComplete(true));
     }
 
     public function testGetComplete()
     {
-        $task = $this->em
-            ->getRepository('DevTaskBundle:Task')
-            ->find(1);
-
-        $this->assertInternalType('boolean', $task->getComplete());
+        $this->assertInternalType('boolean', $this->task->getComplete());
     }
 
     public function testSetCreated()
     {
-        $task = $this->em
-            ->getRepository('DevTaskBundle:Task')
-            ->find(1);
 
-        $this->assertInternalType('object', $task->setCreated());
+        $this->assertInternalType('object', $this->task->setCreated());
     }
 
     public function testGetCreated()
     {
-        $task = $this->em
-            ->getRepository('DevTaskBundle:Task')
-            ->find(1);
 
-        $this->assertInternalType('object', $task->getCreated());
+        $this->assertInternalType('object', $this->task->getCreated());
     }
 }
