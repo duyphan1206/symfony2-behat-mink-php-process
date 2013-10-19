@@ -1,5 +1,0 @@
-dev_task:
-    resource: "@DevTaskBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
