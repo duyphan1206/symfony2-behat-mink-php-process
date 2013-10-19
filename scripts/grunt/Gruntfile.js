@@ -16,9 +16,9 @@ module.exports = function (grunt) {
   grunt.initConfig({
      symfony: {
         app: '../../Symfony',
-        dist: '../../dist',
+        dist: '../../dist/Symfony',
         host_deploy: '172.16.126.169',
-        folder_deploy: '/var/www/deploy',
+        folder_deploy: '/var/www/',
         user : 'congdang',
         password: 'asnet@123',
         project_name : "product"
@@ -38,18 +38,18 @@ module.exports = function (grunt) {
 
       assets_deploy: {
           upload: [{
-              src: 'dist/web/bundles/devtask/css/**',
+              src: 'dist/Symfony/web/bundles/devtask/css/**',
               // a prefix folder on S3
               dest:  'assets/',
               // the rel option
-              rel: 'dist/web/bundles/devtask/'
+              rel: 'dist/Symfony/web/bundles/devtask/'
             },
             {
-              src: 'dist/web/bundles/devtask/js/**',
+              src: 'dist/Symfony/web/bundles/devtask/js/**',
               // a prefix folder on S3
               dest:  'assets/',
               // the rel option
-              rel: 'dist/web/bundles/devtask/'
+              rel: 'dist/Symfony/web/bundles/devtask/'
             }
             ]
       }
@@ -65,13 +65,11 @@ module.exports = function (grunt) {
                 cwd: '<%= symfony.app %>',
                 dest: '<%= symfony.dist %>',
                     src: [
-                        '*.*',
-                        'app/*',
-                        'app/config/**/*',
-                        'app/Resources/**/*',
-                        'app/Resources/**/*',
-                        'src/**/*',
-                        'web/**/*'
+                        'src/**/*.twig',
+                        'web/**/*.css',
+                        'web/**/*.js',
+                        'web/**/*.png',
+                        'web/**/*.jpg'
                     ]
             }]
         }
@@ -86,7 +84,7 @@ module.exports = function (grunt) {
         },
         target: {
           files: {
-            '../../dist/web/bundles/devtask/js/main.min.js': ['../../dist/web/bundles/devtask/**/*.js']
+            '../../dist/Symfony/web/bundles/devtask/js/main.min.js': ['../../dist/Symfony/web/bundles/devtask/**/*.js']
           }
         }
     },
@@ -94,17 +92,17 @@ module.exports = function (grunt) {
     cssmin: {
       combine: {
         files: {
-          '../../dist/web/bundles/devtask/css/main.min.css': ['../../dist/web/bundles/devtask/css/**/*.css']
+          '../../dist/Symfony/web/bundles/devtask/css/main.min.css': ['../../dist/Symfony/web/bundles/devtask/css/**/*.css']
         }
       }
     },
 
     useminPrepare: {
-      html: ['../../dist/src/Dev/TaskBundle/Resources/views/*.html.twig']
+      html: ['../../dist/Symfony/src/Dev/TaskBundle/Resources/views/*.html.twig']
     },
     // update references in HTML/CSS to revved files
     usemin: {
-      html: ['../../dist/src/Dev/TaskBundle/Resources/views/layout.html.twig']
+      html: ['../../dist/Symfony/src/Dev/TaskBundle/Resources/views/layout.html.twig']
     },
 
     assets: {
@@ -130,12 +128,12 @@ module.exports = function (grunt) {
         // local task options
         options: {
           // change the rel path to test/case
-          rel: '../../dist/web/'
+          rel: '../../dist/Symfony/web/'
         },
         src: [
           // all files under folder assets
-          '../../dist/web/bundles/devtask/css/*.min.css',
-          '../../dist/web/bundles/devtask/js/*.min.js'
+          '../../dist/Symfony/web/bundles/devtask/css/*.min.css',
+          '../../dist/Symfony/web/bundles/devtask/js/*.min.js'
         ],
         dest: 'temp/assets'
       }
@@ -157,9 +155,9 @@ module.exports = function (grunt) {
           key: "__ASSET(%)"
         },
         // all the files from the assets/handlebars folder
-        src: '../../dist/src/Dev/TaskBundle/Resources/views/layout.html.twig',
+        src: '../../dist/Symfony/src/Dev/TaskBundle/Resources/views/layout.html.twig',
         // output to temp/handlebars folder
-        dest: '../../dist/src/Dev/TaskBundle/Resources/views/layout.html.twig'
+        dest: '../../dist/Symfony/src/Dev/TaskBundle/Resources/views/layout.html.twig'
       }
     },
 

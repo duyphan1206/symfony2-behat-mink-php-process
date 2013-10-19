@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="symfony" default="build">
+<project name="Symfony" default="build">
  <target name="build"
    depends="clean, prepare, deploy_test_server, test, deploy"/>
 
@@ -38,20 +38,22 @@
 
 		<!-- zip web folder -->
 		<target name="zip">
-			<zip destfile="${root}/${project.name}.zip"
-		       basedir="${root.web}" excludes="vendor/**/*, vendor/**/, vendor, composer.lock, app/cache/**/*, app/logs/**/*" />
+			<exec dir="${root}" executable="bash" failonerror="true">
+				<arg value="-c"/>
+				<arg value='zip ${project.name}.zip `git whatchanged  --since="10 minutes ago" --pretty="format:" --name-only`' />
+	        </exec>
 		</target>
 
 		<!-- copy zip file to test server -->
 		<target name="copy_to_server">
 			<scp todir="${user.test}:${password.test}@${host.test}:${archives.destination}"  trust="true" failonerror="true">
-			  <fileset dir="${root}" includes="*.zip" />
+			  <fileset dir="${root}" includes="${project.name}.zip" />
 			</scp>
 		</target>
 
 		<!-- unzip -->
 		<target name="unzip">
-			<sshexec  trust="true" host="${host.test}" username="${user.test}" password="${password.test}" command="unzip -d ${archives.destination} -o ${archives.destination}/${project.name}.zip; cd ${archives.destination}; rm -rf app/cache; rm -rf app/logs; mkdir app/cache; mkdir app/logs; php -dmemory_limit=${memory.limit} composer.phar update;APACHEUSER=`ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1`; setfacl -R -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; setfacl -dR -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; exit;" />
+			<sshexec  trust="true" host="${host.test}" username="${user.test}" password="${password.test}" command="unzip -d ${archives.destination} -o ${archives.destination}/${project.name}.zip; cd ${archives.destination}/${project.name}; rm -rf app/cache; rm -rf app/logs; mkdir app/cache; mkdir app/logs; php -dmemory_limit=${memory.limit} composer.phar update;APACHEUSER=`ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1`; setfacl -R -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; setfacl -dR -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; php app/console  assets:install ;exit;" />
 		</target>
 
 	<!-- Run test -->
@@ -74,8 +76,20 @@
 		</target>
 
 	<target name="deploy" description="deploy on production server and S3 server">
+
+		<exec dir="${root.web}" executable="php" failonerror="true">
+			<arg line="app/console  assets:install " />
+		</exec>
+
+		<scp todir="${user.product}:${password.product}@${host.product}:${archives.destination}"  trust="true" failonerror="true">
+		  <fileset dir="${root}" includes="${project.name}.zip" />
+		</scp>
+
+		<sshexec  trust="true" host="${host.product}" username="${user.product}" password="${password.product}" command="unzip -d ${archives.destination} -o ${archives.destination}/${project.name}.zip; cd ${archives.destination}/${project.name};php -dmemory_limit=${memory.limit} composer.phar update; rm -rf app/cache; rm -rf app/logs; mkdir app/cache; mkdir app/logs; APACHEUSER=`ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1`; setfacl -R -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; setfacl -dR -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; exit;" />
+
 		<exec dir="${root}/scripts/grunt/" executable="grunt" failonerror="true">
         </exec>
-        <sshexec  trust="true" host="${host.product}" username="${user.product}" password="${password.product}" command="unzip -d ${archives.destination} -o ${archives.destination}/product.zip; cd ${archives.destination};php -dmemory_limit=${memory.limit} composer.phar update; rm -rf app/cache; rm -rf app/logs; mkdir app/cache; mkdir app/logs; APACHEUSER=`ps aux | grep -E '[a]pache|[h]ttpd' | grep -v root | head -1 | cut -d\  -f1`; setfacl -R -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; setfacl -dR -m u:$APACHEUSER:rwX -m u:`whoami`:rwX app/cache app/logs; exit;" />
+
+        <sshexec  trust="true" host="${host.product}" username="${user.product}" password="${password.product}" command="unzip -d ${archives.destination} -o ${archives.destination}/product.zip; exit;" />
 	</target>
 </project>
