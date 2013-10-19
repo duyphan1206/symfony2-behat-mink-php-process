@@ -7,6 +7,8 @@ use Behat\Symfony2Extension\Context\KernelAwareInterface;
 use Behat\MinkExtension\Context\MinkContext;
 
 use Behat\Behat\Context\BehatContext,
+    Behat\Behat\Event\SuiteEvent,
+    Behat\Behat\Event\ScenarioEvent,
     Behat\Behat\Exception\PendingException;
 use Behat\Gherkin\Node\PyStringNode,
     Behat\Gherkin\Node\TableNode;
@@ -35,6 +37,24 @@ class FeatureContext extends MinkContext //MinkContext if you want to test web
     public function __construct(array $parameters)
     {
         $this->parameters = $parameters;
+    }
+
+    /**
+     * @BeforeSuite
+     */
+     public static function prepare(SuiteEvent $event)
+    {
+         // prepare system for test suite
+         // before it runs
+    }
+
+     /**
+      * @AfterScenario @database
+      */
+     public function cleanDB(ScenarioEvent $event)
+    {
+        // clean database after scenarios,
+        // tagged with @database
     }
 
     /**
