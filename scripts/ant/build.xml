@@ -62,6 +62,9 @@
 
 		<!-- Run behat test  -->
 		<target name="behat_test">
+			<exec dir="${root.web}" executable="chmod">
+	        	<arg line="+x ./bin/behat" />
+	        </exec>
 	        <exec dir="${root.web}" executable="./bin/behat" failonerror="true">
 	        	<arg line="@DevTaskBundle" />
 	        </exec>
