@@ -42,14 +42,14 @@ module.exports = function (grunt) {
               // a prefix folder on S3
               dest:  'assets/',
               // the rel option
-              rel: 'dist/Symfony/web/bundles/devtask/'
+              rel: 'dist/Symfony/web/'
             },
             {
               src: 'dist/Symfony/web/bundles/devtask/js/**',
               // a prefix folder on S3
               dest:  'assets/',
               // the rel option
-              rel: 'dist/Symfony/web/bundles/devtask/'
+              rel: 'dist/Symfony/'
             }
             ]
       }
