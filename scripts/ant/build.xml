@@ -2,7 +2,7 @@
 
 <project name="Symfony" default="build">
  <target name="build"
-   depends="clean, prepare, deploy_test_server, test, deploy"/>
+   depends="clean, deploy_test_server, prepare , test, deploy"/>
 
    	<!-- All target is set failonerror="true" -->
 
