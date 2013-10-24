@@ -1,0 +1,37 @@
+{
+    "name": "behat/symfony2-extension",
+    "type": "behat-extension",
+    "description": "Symfony2 framework extension for Behat",
+    "keywords": ["symfony", "framework", "bdd"],
+    "homepage": "http://behat.org",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Konstantin Kudryashov",
+            "email": "ever.zet@gmail.com"
+        }
+    ],
+
+    "require": {
+        "php":                       ">=5.3.2",
+        "behat/behat":               "~2.4.5",
+        "symfony/framework-bundle":  "~2.0"
+    },
+
+    "require-dev": {
+        "behat/mink":                    "~1.4.3",
+        "symfony/symfony":               "~2.1",
+        "behat/mink-extension":          "~1.0.1",
+        "behat/mink-browserkit-driver":  "~1.0.4"
+    },
+
+    "autoload": {
+        "psr-0": { "Behat\\Symfony2Extension": "src/" }
+    },
+
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    }
+}
